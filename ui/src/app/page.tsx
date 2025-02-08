@@ -1,4 +1,6 @@
 "use client";
+import { Send } from 'lucide-react';
+import ChatMessage from "@/components/chat/ChatMessage";
 import { useEffect, useState } from "react";
 
 type Message = {
@@ -34,41 +36,19 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center bg-green-200 p-4">
-      <ul className="w-full max-w-md h-64 overflow-y-auto bg-white p-2 rounded shadow-md">
-        {messages.map((msg, index) => (
-          <>
-            {msg.username === username ? (
-              <li key={index} className="p-2 border-b border-gray-300 flex items-center justify-end bg-green-500">
-                <strong>{msg.username}:</strong> {msg.message}
-              </li>
-            ) : (
-              <li key={index} className="p-2 border-b border-gray-300 flex items-center justify-start bg-blue-500">
-                <strong>{msg.username}:</strong> {msg.message}
-              </li>
-            )}
-          </>
-        ))}
-      </ul>
-      <form onSubmit={sendMessage} className="flex flex-col gap-2 mt-4">
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          className="p-2 border rounded w-full"
-        />
-        <input
-          type="text"
-          placeholder="Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-          className="p-2 border rounded w-full"
-        />
-        <button type="submit" className="p-2 bg-blue-500 text-white rounded w-full">Send</button>
-      </form>
+    <div className="h-screen w-screen flex flex-col items-center justify-center bg-sky-950 p-4">
+      <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required className="p-2 border rounded-lg max-w-md w-full my-2" />
+      <div className="w-full max-w-md h-fit bg-white p-4 rounded-3xl shadow-md">
+        <ul className="w-full h-96 overflow-y-auto p-2 border rounded-lg mb-2 border-gray-400 overflow-hidden">
+          {messages.map((msg, index) => (
+            <ChatMessage msg={msg} index={index} username={username} />
+          ))}
+        </ul>
+        <form onSubmit={sendMessage} className="flex gap-2 w-full max-w-md bg-sky-950 p-4 rounded-lg">
+          <input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required className="p-2 border rounded w-full" />
+          <button type="submit" className="h-10 aspect-square flex items-center justify-center p-2 bg-green-600 text-white rounded-full"><Send size={20}/></button>
+        </form>
+      </div>
     </div>
   );
 };
