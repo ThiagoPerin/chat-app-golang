@@ -6,7 +6,7 @@ type Message = {
 type ChatMessageProps = {
   msg: Message;
   index: number;
-  username: string;
+  username: string | null;
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ msg, index, username }) => {
