@@ -1,24 +1,34 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
+import { MessageCircle } from 'lucide-react';
 
 const ChatApp = () => {
-  const [username, setUsername] = useState(localStorage.getItem("username") || "");
+  const [username, setUsername] = useState("");
+  
   function handleEnterChat(e: { preventDefault: () => void; }) {
     e.preventDefault();
     localStorage.setItem("username", username);
     window.location.href = "/livechat";
   }
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, [])
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-sky-950 p-4">
-      <div className="h-fit w-1/3 bg-sky-900 rounded-lg flex flex-col items-center justify-center space-y-4 p-4">
-        <h1 className="text-6xl font-bold text-white">Live Chat App</h1>
-        <div className="text-2xl text-white">Please enter your username</div>
-        <form className="w-full" onSubmit={handleEnterChat}>
-          <Input placeholder="Username" className="mt-4" value={username} onInput={(e) => setUsername(e.currentTarget.value)} required/>
-          <Button className="mt-4 w-full text-md" type="submit">Enter Chat</Button>
+      <div className="h-fit w-fit min-w-[200px] bg-sky-900 rounded-lg flex flex-col items-center justify-center space-y-6 p-6">
+        <div className="text-6xl flex gap-4 font-bold text-white text-center"><h1 className="w-fit">Live Chat App</h1> <MessageCircle size={60}/></div>
+        <form className="w-full space-y-2" onSubmit={handleEnterChat}>
+          <Label htmlFor="username" className="text-lg text-white">Username</Label>
+          <Input id="username" placeholder="Type your username..." value={username} onInput={(e) => setUsername(e.currentTarget.value)} required />
+          <Button className="mt-2 w-full text-md" type="submit">Enter Chat</Button>
         </form>
       </div>
     </div>
