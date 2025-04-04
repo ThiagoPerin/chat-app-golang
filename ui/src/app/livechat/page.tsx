@@ -2,6 +2,9 @@
 import { Send } from 'lucide-react';
 import ChatMessage from "@/components/custom/chat/ChatMessage";
 import { useEffect, useState } from "react";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from "next/navigation";
 
 type Message = {
     username: string;
@@ -9,15 +12,20 @@ type Message = {
 };
 
 const ChatApp = () => {
+    const router = useRouter();
     const [ws, setWs] = useState<WebSocket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState("");
-    const username = localStorage.getItem("username");
-    if (!username) {
-        window.location.href = "/";
-    }
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
+        const storedUsername = localStorage.getItem("username");
+        if (storedUsername) {
+            setUsername(storedUsername);
+        } else {
+            router.push("/");
+        }
+        
         const websocket = new WebSocket("ws://localhost:8081/ws");
 
         websocket.onmessage = (event) => {
@@ -44,12 +52,12 @@ const ChatApp = () => {
             <div className="w-full max-w-[600px] h-fit bg-sky-900 p-4 rounded-3xl shadow-md">
                 <ul className="w-full h-[70vh] overflow-y-auto p-2 rounded-lg mb-2 bg-sky-950 overflow-hidden">
                     {messages.map((msg, index) => (
-                        <ChatMessage msg={msg} index={index} username={username} />
+                        <ChatMessage msg={msg} index={index} username={username} key={index}/>
                     ))}
                 </ul>
                 <form onSubmit={sendMessage} className="flex gap-2 w-full bg-sky-95000 p-4 rounded-lg">
-                    <input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required className="p-2 border rounded w-full" />
-                    <button type="submit" className="h-10 aspect-square flex items-center justify-center p-2 bg-green-600 text-white rounded-full"><Send size={20} /></button>
+                    <Input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required/>
+                    <Button type="submit" className="h-10 aspect-square flex items-center justify-center p-2 bg-green-600 text-white rounded-full"><Send size={20} /></Button>
                 </form>
             </div>
         </div>
