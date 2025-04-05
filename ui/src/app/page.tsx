@@ -2,8 +2,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { useEffect, useState } from "react";
-import { MessageCircle } from 'lucide-react';
+import { ModeToggle } from "@/components/custom/button/ModeToggle";
 
 const ChatApp = () => {
   const [username, setUsername] = useState("");
@@ -14,23 +22,35 @@ const ChatApp = () => {
     window.location.href = "/livechat";
   }
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, [])
+  // useEffect(() => {
+  //   const storedUsername = localStorage.getItem("username");
+  //   if (storedUsername) {
+  //     setUsername(storedUsername);
+  //   }
+  // }, [])
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-sky-950 p-4">
-      <div className="h-fit w-fit min-w-[200px] bg-sky-900 rounded-lg flex flex-col items-center justify-center space-y-6 p-6">
-        <div className="text-6xl flex gap-4 font-bold text-white text-center"><h1 className="w-fit">Live Chat App</h1> <MessageCircle size={60}/></div>
-        <form className="w-full space-y-2" onSubmit={handleEnterChat}>
-          <Label htmlFor="username" className="text-lg text-white">Username</Label>
-          <Input id="username" placeholder="Type your username..." value={username} onInput={(e) => setUsername(e.currentTarget.value)} required />
-          <Button className="mt-2 w-full text-md" type="submit">Enter Chat</Button>
+    <div className="h-screen w-screen relative flex items-center justify-center bg-white dark:bg-black p-4">
+      <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Live Chat App</CardTitle>
+        <CardDescription>A simple live chat app</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleEnterChat}>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" placeholder="Type your username..." value={username} onInput={(e) => setUsername(e.currentTarget.value)} required />
+            </div>
+          </div>
         </form>
-      </div>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button className="w-full" onClick={handleEnterChat}>Enter Chat</Button>
+      </CardFooter>
+    </Card>
+        <ModeToggle />
     </div>
   );
 };
