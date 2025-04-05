@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from "next/navigation";
+import { ModeToggle } from '@/components/custom/button/ModeToggle';
 
 type Message = {
     username: string;
@@ -47,10 +48,10 @@ const ChatApp = () => {
     };
 
     return (
-        <div className="h-screen w-screen flex flex-col items-center justify-center bg-sky-950 p-4 space-y-2">
-            <div className="text-3xl text-white font-extralight text-center">Welcome to the chat <strong>{username}</strong> !!!</div>
-            <div className="w-full max-w-[600px] h-fit bg-sky-900 p-4 rounded-3xl shadow-md">
-                <ul className="w-full h-[70vh] overflow-y-auto p-2 rounded-lg mb-2 bg-sky-950 overflow-hidden">
+        <div className="h-screen w-screen relative flex flex-col items-center justify-center bg-white dark:bg-black p-4 space-y-2">
+            <div className="text-3xl dark:text-white text-black font-extralight text-center">Welcome to the chat <strong>{username}</strong> !!!</div>
+            <div className="w-full max-w-[600px] h-fit bg-white dark:bg-black border border-black dark:border-white p-4 rounded-3xl shadow-md">
+                <ul className="w-full h-[70vh] overflow-y-auto p-2 rounded-lg mb-2 bg-white dark:bg-black border border-black dark:border-white overflow-hidden">
                     {messages.map((msg, index) => (
                         <ChatMessage msg={msg} index={index} username={username} key={index}/>
                     ))}
@@ -60,6 +61,7 @@ const ChatApp = () => {
                     <Button type="submit" className="h-10 aspect-square flex items-center justify-center p-2 bg-green-600 text-white rounded-full"><Send size={20} /></Button>
                 </form>
             </div>
+             <ModeToggle />
         </div>
     );
 };
