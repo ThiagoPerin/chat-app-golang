@@ -1,11 +1,13 @@
 "use client";
-import { Send } from 'lucide-react';
-import ChatMessage from "@/components/custom/chat/ChatMessage";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import ChatMessage from "@/components/custom/chat/ChatMessage";
+import { ModeToggle } from '@/components/custom/button/ModeToggle';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRouter } from "next/navigation";
-import { ModeToggle } from '@/components/custom/button/ModeToggle';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { House, MessageCircleOff, Send } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Message = {
     username: string;
@@ -26,7 +28,7 @@ const ChatApp = () => {
         } else {
             router.push("/");
         }
-        
+
         const websocket = new WebSocket("ws://localhost:8081/ws");
 
         websocket.onmessage = (event) => {
@@ -48,20 +50,39 @@ const ChatApp = () => {
     };
 
     return (
-        <div className="h-screen w-screen relative flex flex-col items-center justify-center bg-white dark:bg-black p-4 space-y-2">
-            <div className="text-3xl dark:text-white text-black font-extralight text-center">Welcome to the chat <strong>{username}</strong> !!!</div>
-            <div className="w-full max-w-[600px] h-fit bg-white dark:bg-black border border-black dark:border-white p-4 rounded-3xl shadow-md">
-                <ul className="w-full h-[70vh] overflow-y-auto p-2 rounded-lg mb-2 bg-white dark:bg-black border border-black dark:border-white overflow-hidden">
-                    {messages.map((msg, index) => (
-                        <ChatMessage msg={msg} index={index} username={username} key={index}/>
-                    ))}
-                </ul>
-                <form onSubmit={sendMessage} className="flex gap-2 w-full bg-sky-95000 p-4 rounded-lg">
-                    <Input type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required/>
-                    <Button type="submit" className="h-10 aspect-square flex items-center justify-center p-2 bg-green-600 text-white rounded-full"><Send size={20} /></Button>
+        <div className="h-screen w-screen relative flex flex-col items-center justify-center p-4 space-y-2">
+            <Card className="w-full max-w-xl h-fit p-4">
+                <CardHeader>
+                    <CardTitle>Live Chat</CardTitle>
+                    <CardDescription>Welcome to the chat <strong>{username}</strong>, let's have a conversation</CardDescription>
+                </CardHeader>
+                <CardContent className='w-full h-[60vh] rounded-2xl p-0 overflow-hidden border'>
+                    {messages.length > 0 ? (
+                        <ScrollArea className="w-full h-full">
+                            <ul className="w-full h-full p-4">
+                                {messages.map((msg, index) => (
+                                    <ChatMessage msg={msg} index={index} username={username} key={index} />
+                                ))}
+                            </ul>
+                        </ScrollArea>
+                    ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4">
+                            <MessageCircleOff className="h-[6rem] w-[6rem]"/>
+                            <p className="text-xl font-extralight text-center">There are no messages for you yet, please start a conversation.</p>
+                        </div>
+                    )}
+                </CardContent>
+                <form onSubmit={sendMessage} className="flex gap-2 w-full p-4 rounded-lg border">
+                    <Input type="text" placeholder="Message..." value={message} onChange={(e) => setMessage(e.target.value)} required />
+                    <Button type="submit" variant="outline" size="icon">
+                        <Send className='h-[1.2rem] w-[1.2rem] scale-100 transition-all' />
+                    </Button>
                 </form>
-            </div>
-             <ModeToggle />
+            </Card>
+            <Button variant="outline" size="icon" className="absolute top-2 left-2" onClick={() => router.push("/")}>
+                <House className="h-[1.2rem] w-[1.2rem] scale-100 transition-all" />
+            </Button>
+            <ModeToggle />
         </div>
     );
 };
