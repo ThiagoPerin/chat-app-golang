@@ -58,16 +58,14 @@ const ChatApp = () => {
                 </CardHeader>
                 <CardContent className='w-full h-[60vh] rounded-2xl p-0 overflow-hidden border'>
                     {messages.length > 0 ? (
-                        <ScrollArea className="w-full h-full">
-                            <ul className="w-full h-full p-4">
-                                {messages.map((msg, index) => (
-                                    <ChatMessage msg={msg} index={index} username={username} key={index} />
-                                ))}
-                            </ul>
+                        <ScrollArea className="w-full h-full p-4">
+                            {messages.map((msg, index) => (
+                                <ChatMessage msg={msg} index={index} username={username} key={index} />
+                            ))}
                         </ScrollArea>
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4">
-                            <MessageCircleOff className="h-[6rem] w-[6rem]"/>
+                            <MessageCircleOff className="h-[6rem] w-[6rem]" />
                             <p className="text-xl font-extralight text-center">There are no messages for you yet, please start a conversation.</p>
                         </div>
                     )}
