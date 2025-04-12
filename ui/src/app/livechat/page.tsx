@@ -14,7 +14,7 @@ type Message = {
     message: string;
 };
 
-const ChatApp = () => {
+const LiveChatPage = () => {
     const router = useRouter();
     const [ws, setWs] = useState<WebSocket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -85,4 +85,4 @@ const ChatApp = () => {
     );
 };
 
-export default ChatApp;
+export default LiveChatPage;

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 
-const ChatApp = () => {
+const UsernameSelectionPage = () => {
   const router = useRouter()
   const [username, setUsername] = useState("");
 
@@ -32,4 +32,4 @@ const ChatApp = () => {
   );
 };
 
-export default ChatApp;
+export default UsernameSelectionPage;
