@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chat app com Go e React",
+  title: "Chat app with Go and Next.js",
   description: "A simple live chat app with Go and React",
 };
 
