@@ -79,6 +79,8 @@ Messages sent and received follow this format:
 - Light/Dark mode;
 - Local storage for username;
 
-<!-- ## 📸 Preview -->
+## 📸 Preview
 
-<!-- ![Chat Screenshot](./screenshot.png) -->
+![User selection Screenshot](./assets/username-page.png)
+
+![User selection Screenshot](./assets/livechat-page.png)
